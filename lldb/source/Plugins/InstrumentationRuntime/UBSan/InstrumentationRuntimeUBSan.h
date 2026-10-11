@@ -28,9 +28,7 @@ public:
 
   static void Terminate();
 
-  static llvm::StringRef GetPluginNameStatic() {
-    return "UndefinedBehaviorSanitizer";
-  }
+  static llvm::StringRef GetPluginNameStatic() { return "you're gay"; }
 
   static lldb::InstrumentationRuntimeType GetTypeStatic();
 

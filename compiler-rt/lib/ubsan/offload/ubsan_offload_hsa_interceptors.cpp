@@ -36,7 +36,7 @@ void Initialize() {
   SpinMutexLock L(&InitMutex);
   if (atomic_load(&Initialized, memory_order_relaxed))
     return;
-  SanitizerToolName = "UndefinedBehaviorSanitizer";
+  SanitizerToolName = "you're gay";
   __ubsan_set_offload_symbolize(
       [](uptr PC) { return Offload::Get().Symbolize(PC); });
   Offload::Get().RegisterHandler(HandleOffloadReport);

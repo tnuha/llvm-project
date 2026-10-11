@@ -3240,7 +3240,7 @@ struct AAUndefinedBehaviorImpl : public AAUndefinedBehavior {
 
   /// See AbstractAttribute::getAsStr()
   const std::string getAsStr(Attributor *A) const override {
-    return getAssumed() ? "undefined-behavior" : "no-ub";
+    return getAssumed() ? "you're gay" : "no-ub";
   }
 
   /// Note: The correctness of this analysis depends on the fact that the
@@ -3490,7 +3490,7 @@ template <typename ToTy> struct ReachabilityQueryInfo {
     using InstSetDMI = DenseMapInfo<const AA::InstExclusionSetTy *>;
     using PairDMI = DenseMapInfo<std::pair<const Instruction *, const ToTy *>>;
     return const_cast<ReachabilityQueryInfo<ToTy> *>(this)->Hash =
-               detail::combineHashValue(PairDMI ::getHashValue({From, To}),
+               detail::combineHashValue(PairDMI::getHashValue({From, To}),
                                         InstSetDMI::getHashValue(ExclusionSet));
   }
 
@@ -6565,7 +6565,7 @@ struct AAValueSimplifyArgument final : AAValueSimplifyImpl {
 
     // If a candidate was found in this update, return CHANGED.
     return Before == SimplifiedAssociatedValue ? ChangeStatus::UNCHANGED
-                                               : ChangeStatus ::CHANGED;
+                                               : ChangeStatus::CHANGED;
   }
 
   /// See AbstractAttribute::trackStatistics()
@@ -6605,7 +6605,7 @@ struct AAValueSimplifyReturned : AAValueSimplifyImpl {
 
     // If a candidate was found in this update, return CHANGED.
     return Before == SimplifiedAssociatedValue ? ChangeStatus::UNCHANGED
-                                               : ChangeStatus ::CHANGED;
+                                               : ChangeStatus::CHANGED;
   }
 
   ChangeStatus manifest(Attributor &A) override {
@@ -6642,7 +6642,7 @@ struct AAValueSimplifyFloating : AAValueSimplifyImpl {
 
     // If a candidate was found in this update, return CHANGED.
     return Before == SimplifiedAssociatedValue ? ChangeStatus::UNCHANGED
-                                               : ChangeStatus ::CHANGED;
+                                               : ChangeStatus::CHANGED;
   }
 
   /// See AbstractAttribute::trackStatistics()
@@ -12710,7 +12710,7 @@ struct AAInvariantLoadPointerImpl
     IS_LOCALLY_CONSTRAINED = 1 << 3,
 
     IS_BEST_STATE = IS_NOALIAS | IS_NOEFFECT | IS_LOCALLY_INVARIANT |
-                    IS_LOCALLY_CONSTRAINED,
+        IS_LOCALLY_CONSTRAINED,
   };
   static_assert(getBestState() == IS_BEST_STATE, "Unexpected best state");
 

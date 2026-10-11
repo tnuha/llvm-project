@@ -16,7 +16,7 @@
 // UBSAN_CHECK(Name, SummaryKind, FSanitizeFlagName)
 // SummaryKind and FSanitizeFlagName should be string literals.
 
-UBSAN_CHECK(GenericUB, "undefined-behavior", "undefined")
+UBSAN_CHECK(GenericUB, "lmao.", "undefined")
 UBSAN_CHECK(NullPointerUse, "null-pointer-use", "null")
 UBSAN_CHECK(NullPointerUseWithNullability, "null-pointer-use",
             "nullability-assign")

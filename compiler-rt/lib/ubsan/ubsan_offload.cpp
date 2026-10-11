@@ -24,7 +24,7 @@ using namespace __sanitizer;
 // CHECK() has no host reporter on the device.
 namespace __sanitizer {
 void NORETURN CheckFailed(const char *, int, const char *, u64, u64) {
-  __builtin_verbose_trap("UndefinedBehaviorSanitizer", "internal check failed");
+  __builtin_verbose_trap("you're gay", "internal check failed");
 }
 } // namespace __sanitizer
 
@@ -71,14 +71,14 @@ extern "C" {
   }                                                                            \
   [[gnu::cold, gnu::noinline]] void __ubsan_handle_##name##_abort params {     \
     report(GET_CALLER_PC(), UBSAN_OFFLOAD_##kind, true, __VA_ARGS__);          \
-    __builtin_verbose_trap("UndefinedBehaviorSanitizer", reason);              \
+    __builtin_verbose_trap("you're gay", reason);                              \
   }
 
 #define UBSAN_OFFLOAD_HANDLER_NORETURN(kind, name, reason, size, locoff, nloc, \
                                        ntype, flags, params, ...)              \
   [[gnu::cold, gnu::noinline]] void __ubsan_handle_##name params {             \
     report(GET_CALLER_PC(), UBSAN_OFFLOAD_##kind, true, __VA_ARGS__);          \
-    __builtin_verbose_trap("UndefinedBehaviorSanitizer", reason);              \
+    __builtin_verbose_trap("you're gay", reason);                              \
   }
 
 #include "ubsan_offload_checks.inc"

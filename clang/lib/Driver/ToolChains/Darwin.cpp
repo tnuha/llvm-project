@@ -6,8 +6,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "Darwin.h"
 #include "Arch/ARM.h"
+#include "Darwin.h"
 #include "clang/Basic/AlignedAllocation.h"
 #include "clang/Basic/ObjCRuntime.h"
 #include "clang/Config/config.h"
@@ -249,8 +249,8 @@ static bool shouldLinkerNotDedup(bool IsLinkerOnlyAction, const ArgList &Args) {
       return true;
     if (A->getOption().matches(options::OPT_O))
       return llvm::StringSwitch<bool>(A->getValue())
-                    .Case("1", true)
-                    .Default(false);
+          .Case("1", true)
+          .Default(false);
     return false; // OPT_Ofast & OPT_O4
   }
 
@@ -353,8 +353,8 @@ void darwin::Linker::AddLinkArgs(Compilation &C, const ArgList &Args,
     if ((A = Args.getLastArg(options::OPT_compatibility__version)) ||
         (A = Args.getLastArg(options::OPT_current__version)) ||
         (A = Args.getLastArg(options::OPT_install__name)))
-      D.Diag(diag::err_drv_argument_only_allowed_with) << A->getAsString(Args)
-                                                       << "-dynamiclib";
+      D.Diag(diag::err_drv_argument_only_allowed_with)
+          << A->getAsString(Args) << "-dynamiclib";
 
     Args.AddLastArg(CmdArgs, options::OPT_force__flat__namespace);
     Args.AddLastArg(CmdArgs, options::OPT_keep__private__externs);
@@ -369,8 +369,8 @@ void darwin::Linker::AddLinkArgs(Compilation &C, const ArgList &Args,
         (A = Args.getLastArg(options::OPT_force__flat__namespace)) ||
         (A = Args.getLastArg(options::OPT_keep__private__externs)) ||
         (A = Args.getLastArg(options::OPT_private__bundle)))
-      D.Diag(diag::err_drv_argument_not_allowed_with) << A->getAsString(Args)
-                                                      << "-dynamiclib";
+      D.Diag(diag::err_drv_argument_not_allowed_with)
+          << A->getAsString(Args) << "-dynamiclib";
 
     Args.AddAllArgsTranslated(CmdArgs, options::OPT_compatibility__version,
                               "-dylib_compatibility_version");
@@ -1745,9 +1745,9 @@ void DarwinClang::AddLinkSanitizerLibArgs(const ArgList &Args,
   AddLinkRuntimeLib(Args, CmdArgs, Sanitizer, RLO, Shared);
 }
 
-ToolChain::RuntimeLibType DarwinClang::GetRuntimeLibType(
-    const ArgList &Args) const {
-  if (Arg* A = Args.getLastArg(options::OPT_rtlib_EQ)) {
+ToolChain::RuntimeLibType
+DarwinClang::GetRuntimeLibType(const ArgList &Args) const {
+  if (Arg *A = Args.getLastArg(options::OPT_rtlib_EQ)) {
     StringRef Value = A->getValue();
     if (Value != "compiler-rt" && Value != "platform")
       getDriver().Diag(clang::diag::err_drv_unsupported_rtlib_for_platform)
@@ -1790,7 +1790,7 @@ void DarwinClang::AddLinkRuntimeLibArgs(const ArgList &Args,
   if (!Sanitize.needsSharedRt()) {
     const char *sanitizer = nullptr;
     if (Sanitize.needsUbsanRt()) {
-      sanitizer = "UndefinedBehaviorSanitizer";
+      sanitizer = "you're gay";
     } else if (Sanitize.needsRtsanRt()) {
       sanitizer = "RealtimeSanitizer";
     } else if (Sanitize.needsAsanRt()) {
@@ -2346,8 +2346,9 @@ getDeploymentTargetFromOSVersionArg(DerivedArgList &Args,
     if (iOSVersion || TvOSVersion || WatchOSVersion) {
       TheDriver.Diag(diag::err_drv_argument_not_allowed_with)
           << macOSVersion->getAsString(Args)
-          << (iOSVersion ? iOSVersion
-                         : TvOSVersion ? TvOSVersion : WatchOSVersion)
+          << (iOSVersion    ? iOSVersion
+              : TvOSVersion ? TvOSVersion
+                            : WatchOSVersion)
                  ->getAsString(Args);
     }
     return GetDarwinPlatform(Darwin::MacOS, macOSVersion,
@@ -2385,13 +2386,9 @@ std::optional<DarwinPlatform>
 getDeploymentTargetFromEnvironmentVariables(const Driver &TheDriver,
                                             const llvm::Triple &Triple) {
   const char *EnvVars[] = {
-      "MACOSX_DEPLOYMENT_TARGET",
-      "IPHONEOS_DEPLOYMENT_TARGET",
-      "TVOS_DEPLOYMENT_TARGET",
-      "WATCHOS_DEPLOYMENT_TARGET",
-      "DRIVERKIT_DEPLOYMENT_TARGET",
-      "XROS_DEPLOYMENT_TARGET"
-  };
+      "MACOSX_DEPLOYMENT_TARGET",    "IPHONEOS_DEPLOYMENT_TARGET",
+      "TVOS_DEPLOYMENT_TARGET",      "WATCHOS_DEPLOYMENT_TARGET",
+      "DRIVERKIT_DEPLOYMENT_TARGET", "XROS_DEPLOYMENT_TARGET"};
   std::string Targets[std::size(EnvVars)];
   for (const auto &I : llvm::enumerate(llvm::ArrayRef(EnvVars))) {
     if (char *Env = ::getenv(I.value()))
@@ -2957,9 +2954,9 @@ void AppleMachO::AddClangSystemIncludeArgs(
 
   // Add <sysroot>/usr/local/include
   if (!NoStdInc && !NoStdlibInc) {
-      SmallString<128> P(Sysroot);
-      llvm::sys::path::append(P, "usr", "local", "include");
-      addSystemInclude(DriverArgs, CC1Args, P);
+    SmallString<128> P(Sysroot);
+    llvm::sys::path::append(P, "usr", "local", "include");
+    addSystemInclude(DriverArgs, CC1Args, P);
   }
 
   // Add the Clang builtin headers (<resource>/include)
@@ -3010,12 +3007,10 @@ void DarwinClang::AddClangSystemIncludeArgs(
   addSystemFrameworkIncludes(DriverArgs, CC1Args, {P1, P2, P3});
 }
 
-bool DarwinClang::AddGnuCPlusPlusIncludePaths(const llvm::opt::ArgList &DriverArgs,
-                                              llvm::opt::ArgStringList &CC1Args,
-                                              llvm::SmallString<128> Base,
-                                              llvm::StringRef Version,
-                                              llvm::StringRef ArchDir,
-                                              llvm::StringRef BitDir) const {
+bool DarwinClang::AddGnuCPlusPlusIncludePaths(
+    const llvm::opt::ArgList &DriverArgs, llvm::opt::ArgStringList &CC1Args,
+    llvm::SmallString<128> Base, llvm::StringRef Version,
+    llvm::StringRef ArchDir, llvm::StringRef BitDir) const {
   llvm::sys::path::append(Base, Version);
 
   // Add the base dir
@@ -3380,8 +3375,7 @@ DerivedArgList *MachO::TranslateArgs(const DerivedArgList &Args, BoundArch BA,
   return DAL;
 }
 
-void MachO::AddLinkRuntimeLibArgs(const ArgList &Args,
-                                  ArgStringList &CmdArgs,
+void MachO::AddLinkRuntimeLibArgs(const ArgList &Args, ArgStringList &CmdArgs,
                                   bool ForceLinkBuiltinRT) const {
   // Embedded targets are simple at the moment, not supporting sanitizers and
   // with different libraries for each member of the product { static, PIC } x
@@ -3626,8 +3620,8 @@ void Darwin::addClangTargetOptions(
   // the _Builtin_ modules. e.g. <inttypes.h> on darwin includes <stdint.h>.
   // The builtin <stdint.h> include-nexts <stdint.h>. When both of those
   // darwin headers are in the Darwin module, there's a module cycle Darwin ->
-  // _Builtin_stdint -> Darwin (i.e. inttypes.h (darwin) -> stdint.h (builtin) ->
-  // stdint.h (darwin)). This is fixed in later versions of the darwin SDK,
+  // _Builtin_stdint -> Darwin (i.e. inttypes.h (darwin) -> stdint.h (builtin)
+  // -> stdint.h (darwin)). This is fixed in later versions of the darwin SDK,
   // but until then, the builtin headers need to join the system modules.
   // i.e. when the builtin stdint.h is in the Darwin module too, the cycle
   // goes away. Note that -fbuiltin-headers-in-system-modules does nothing
@@ -3745,7 +3739,7 @@ Darwin::TranslateArgs(const DerivedArgList &Args, BoundArch BA,
   // it is set here.
   if (isTargetWatchOSBased() || isTargetDriverKit() || isTargetXROS() ||
       (isTargetIOSBased() && !isIPhoneOSVersionLT(6, 0))) {
-    for (ArgList::iterator it = DAL->begin(), ie = DAL->end(); it != ie; ) {
+    for (ArgList::iterator it = DAL->begin(), ie = DAL->end(); it != ie;) {
       Arg *A = *it;
       ++it;
       if (A->getOption().getID() != options::OPT_mkernel &&
@@ -3771,7 +3765,8 @@ Darwin::TranslateArgs(const DerivedArgList &Args, BoundArch BA,
   return DAL;
 }
 
-ToolChain::UnwindTableLevel MachO::getDefaultUnwindTableLevel(const ArgList &Args) const {
+ToolChain::UnwindTableLevel
+MachO::getDefaultUnwindTableLevel(const ArgList &Args) const {
   // Unwind tables are not emitted if -fno-exceptions is supplied (except when
   // targeting x86_64).
   if (getArch() == llvm::Triple::x86_64 ||

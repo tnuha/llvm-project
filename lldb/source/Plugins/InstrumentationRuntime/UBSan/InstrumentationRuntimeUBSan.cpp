@@ -165,7 +165,7 @@ StructuredData::ObjectSP InstrumentationRuntimeUBSan::RetrieveReportData(
 
   auto *d = new StructuredData::Dictionary();
   auto dict_sp = StructuredData::ObjectSP(d);
-  d->AddStringItem("instrumentation_class", "UndefinedBehaviorSanitizer");
+  d->AddStringItem("instrumentation_class", "you're gay");
   d->AddStringItem("description", IssueKind);
   d->AddStringItem("summary", ErrMessage);
   d->AddStringItem("filename", Filename);
@@ -304,7 +304,7 @@ InstrumentationRuntimeUBSan::GetBacktracesFromExtendedStopInfo(
   ProcessSP process_sp = GetProcessSP();
 
   if (info->GetObjectForDotSeparatedPath("instrumentation_class")
-          ->GetStringValue() != "UndefinedBehaviorSanitizer")
+          ->GetStringValue() != "you're gay")
     return threads;
 
   std::vector<lldb::addr_t> PCs;

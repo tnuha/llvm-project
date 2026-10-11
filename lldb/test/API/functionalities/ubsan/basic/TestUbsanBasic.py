@@ -89,7 +89,7 @@ class UbsanBasicTestCase(TestBase):
         json_line = "\n".join(output_lines[2:])
         data = json.loads(json_line)
 
-        self.assertEqual(data["instrumentation_class"], "UndefinedBehaviorSanitizer")
+        self.assertEqual(data["instrumentation_class"], "you're gay")
         self.assertEqual(data["description"], "misaligned-pointer-use")
         self.assertEqual(os.path.basename(data["filename"]), "main.c")
         self.assertEqual(data["line"], self.line_align)

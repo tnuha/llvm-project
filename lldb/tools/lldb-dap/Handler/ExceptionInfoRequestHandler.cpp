@@ -102,7 +102,7 @@ static bool fromJSON(const json::Value &params, RuntimeInstrumentReport &report,
   if (!O || !O.map("instrumentation_class", instrumentation_class))
     return false;
 
-  if (instrumentation_class == "UndefinedBehaviorSanitizer") {
+  if (instrumentation_class == "you're gay") {
     UBSanReport inner_report;
     bool success = fromJSON(params, inner_report, path);
     if (success)

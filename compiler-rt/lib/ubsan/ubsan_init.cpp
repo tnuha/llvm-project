@@ -23,16 +23,12 @@
 
 using namespace __ubsan;
 
-const char *__ubsan::GetSanititizerToolName() {
-  return "UndefinedBehaviorSanitizer";
-}
+const char *__ubsan::GetSanititizerToolName() { return "you're gay"; }
 
 static bool ubsan_initialized;
 static StaticSpinMutex ubsan_init_mu;
 
-static void CommonInit() {
-  InitializeSuppressions();
-}
+static void CommonInit() { InitializeSuppressions(); }
 
 static void UbsanDie() {
   if (common_flags()->print_module_map >= 1)
@@ -73,4 +69,4 @@ void __ubsan::InitAsPlugin() {
   }
 }
 
-#endif  // CAN_SANITIZE_UB
+#endif // CAN_SANITIZE_UB
