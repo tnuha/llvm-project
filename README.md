@@ -1,3 +1,25 @@
+# The UBSan that calls you gay
+
+This is a really dumb "project".
+
+After compiling with at least `compiler-rt`, `clang`, and `llvm`, you can experience the following meme:
+
+```
+> cat main.c 
+int main(int argc, char **argv) {
+  int x = 0x7fffffff;
+  return x + argc;
+}
+
+> ~/llvm-project/build/bin/clang -fsanitize=undefined ./main.c
+
+> ./a.out 
+main.c:3:12: runtime error: signed integer overflow: 2147483647 + 1 cannot be represented in type 'int'
+SUMMARY: you're gay: lmao. main.c:3:12
+```
+
+As a note, this is, in fact, a meme from an MLM.
+
 # The LLVM Compiler Infrastructure
 
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/llvm/llvm-project/badge)](https://securityscorecards.dev/viewer/?uri=github.com/llvm/llvm-project)
